@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Table,
@@ -45,7 +44,6 @@ export default function Results() {
   return (
     <div className="py-6 w-full bg-white dark:bg-[#0D1321] min-h-screen">
       <div className="border border-black/20 dark:border-gray-800 rounded-[10px] shadow-sm overflow-hidden">
-
         {/* Header Section */}
         <div className="px-4 sm:px-6 py-4 flex flex-col sm:flex-row justify-between items-center bg-white dark:bg-[#111827] border-b border-black/20 dark:border-gray-800 gap-4">
           <h2 className="text-xl font-bold text-black dark:text-gray-100">
@@ -71,23 +69,42 @@ export default function Results() {
             <Table className="min-w-[1000px] w-full">
               <TableHeader className="bg-[#0D1321] dark:bg-black text-white">
                 <TableRow className="hover:bg-transparent border-none">
-                   <TableHead className="text-white font-bold uppercase text-center text-[14px] tracking-wider border-r border-gray-800 last:border-r-0">TITLE</TableHead>
-                  <TableHead className="text-white font-bold uppercase text-center text-[14px] tracking-wider border-r border-gray-800 last:border-r-0">STATUS</TableHead>
-                  <TableHead className="text-white font-bold uppercase text-center text-[14px] tracking-wider border-r border-gray-800 last:border-r-0">CODE</TableHead>
-                  <TableHead className="text-white font-bold uppercase text-center text-[14px] tracking-wider border-r border-gray-800 last:border-r-0">DURATION</TableHead>
-                  <TableHead className="text-white font-bold uppercase text-center text-[14px] tracking-wider border-r border-gray-800 last:border-r-0">SCHEDULE</TableHead>
-                  <TableHead className="text-white font-bold uppercase text-center text-[14px] tracking-wider border-r border-gray-800 last:border-r-0">DIFFICULTY</TableHead>
-                  <TableHead className="text-white font-bold uppercase text-center text-[14px] tracking-wider">ACTIONS</TableHead>
+                  <TableHead className="text-white font-bold uppercase text-center text-[14px] tracking-wider border-r border-gray-800 last:border-r-0">
+                    TITLE
+                  </TableHead>
+                  <TableHead className="text-white font-bold uppercase text-center text-[14px] tracking-wider border-r border-gray-800 last:border-r-0">
+                    STATUS
+                  </TableHead>
+                  <TableHead className="text-white font-bold uppercase text-center text-[14px] tracking-wider border-r border-gray-800 last:border-r-0">
+                    CODE
+                  </TableHead>
+                  <TableHead className="text-white font-bold uppercase text-center text-[14px] tracking-wider border-r border-gray-800 last:border-r-0">
+                    DURATION
+                  </TableHead>
+                  <TableHead className="text-white font-bold uppercase text-center text-[14px] tracking-wider border-r border-gray-800 last:border-r-0">
+                    SCHEDULE
+                  </TableHead>
+                  <TableHead className="text-white font-bold uppercase text-center text-[14px] tracking-wider border-r border-gray-800 last:border-r-0">
+                    DIFFICULTY
+                  </TableHead>
+                  <TableHead className="text-white font-bold uppercase text-center text-[14px] tracking-wider">
+                    ACTIONS
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {loading ? (
                   <TableRow>
-                    <TableCell colSpan={7}><Loading /></TableCell>
+                    <TableCell colSpan={7}>
+                      <Loading />
+                    </TableCell>
                   </TableRow>
                 ) : paginatedResults.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={7} className="h-24 text-center text-gray-500 dark:text-gray-400">
+                    <TableCell
+                      colSpan={7}
+                      className="h-24 text-center text-gray-500 dark:text-gray-400"
+                    >
                       No closed quizzes found.
                     </TableCell>
                   </TableRow>
@@ -99,7 +116,10 @@ export default function Results() {
                       onClick={() => {
                         if (loginData?.role === "Instructor") {
                           navigate(`/dashboard/quiz-result-view`, {
-                            state: { quiz: result.quiz, participants: result.participants },
+                            state: {
+                              quiz: result.quiz,
+                              participants: result.participants,
+                            },
                           });
                         }
                       }}
@@ -108,11 +128,13 @@ export default function Results() {
                         {result.quiz.title}
                       </TableCell>
                       <TableCell className="text-center py-6 border-r border-black/20 dark:border-gray-800 last:border-r-0">
-                        <span className={`inline-block px-4 py-1.5 rounded-full text-[13px] font-medium ${
-                          result.quiz.status === "active"
-                            ? "bg-[#ECFDF5] text-[#065F46]"
-                            : "bg-[#FFF1F2] text-[#9F1239]"
-                        }`}>
+                        <span
+                          className={`inline-block px-4 py-1.5 rounded-full text-[13px] font-medium ${
+                            result.quiz.status === "active"
+                              ? "bg-[#ECFDF5] text-[#065F46]"
+                              : "bg-[#FFF1F2] text-[#9F1239]"
+                          }`}
+                        >
                           {result.quiz.status}
                         </span>
                       </TableCell>
@@ -123,26 +145,41 @@ export default function Results() {
                         {result.quiz.duration} MIN
                       </TableCell>
                       <TableCell className="text-center py-6 text-black dark:text-gray-100 text-[14px] border-r border-black/20 dark:border-gray-700 last:border-r-0">
-                        {new Date(result.quiz.schadule).toLocaleString("en-GB", {
-                          day: "2-digit", month: "2-digit", year: "numeric",
-                          hour: "2-digit", minute: "2-digit", hour12: true,
-                        })}
+                        {new Date(result.quiz.schadule).toLocaleString(
+                          "en-GB",
+                          {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            hour12: true,
+                          },
+                        )}
                       </TableCell>
                       <TableCell className="text-center py-6 border-r border-black/20 dark:border-gray-700 last:border-r-0">
-                        <span className={`inline-block px-4 py-1.5 rounded-full text-[13px] font-medium ${
-                          result.quiz.difficulty === "easy"
-                            ? "bg-[#ECFDF5] text-[#065F46]"
-                            : result.quiz.difficulty === "hard"
-                              ? "bg-[#FFF1F2] text-[#9F1239]"
-                              : "bg-[#FFFBEB] text-[#92400E]"
-                        }`}>
+                        <span
+                          className={`inline-block px-4 py-1.5 rounded-full text-[13px] font-medium ${
+                            result.quiz.difficulty === "easy"
+                              ? "bg-[#ECFDF5] text-[#065F46]"
+                              : result.quiz.difficulty === "hard"
+                                ? "bg-[#FFF1F2] text-[#9F1239]"
+                                : "bg-[#FFFBEB] text-[#92400E]"
+                          }`}
+                        >
                           {result.quiz.difficulty}
                         </span>
                       </TableCell>
                       <TableCell className="px-6 py-6">
                         <div className="flex items-center justify-center gap-2">
-                          <Eye size={18} strokeWidth={3} className="text-[#FB7C19] cursor-pointer hover:opacity-80 transition-opacity" />
-                          <span className="text-[13px] font-semibold text-[#FB7C19]">View</span>
+                          <Eye
+                            size={18}
+                            strokeWidth={3}
+                            className="text-[#FB7C19] cursor-pointer hover:opacity-80 transition-opacity"
+                          />
+                          <span className="text-[13px] font-semibold text-[#FB7C19]">
+                            View
+                          </span>
                         </div>
                       </TableCell>
                     </TableRow>
@@ -159,7 +196,6 @@ export default function Results() {
             onPageChange={setCurrentPage}
           />
         </div>
-
       </div>
     </div>
   );

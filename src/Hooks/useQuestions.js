@@ -4,14 +4,18 @@ import { toast } from "react-toastify";
 
 export default function useQuestions() {
   const [data, setData] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
 
   const getAllQuestions = async () => {
+    setLoading(true);
     try {
       const response = await axiosClient.get("/api/question");
       console.log(`all questions`, response.data);
       setData(response.data);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -22,8 +26,12 @@ export default function useQuestions() {
       getAllQuestions();
       toast.success(response.data.message);
     } catch (error) {
-      console.log(error);
-      toast.error(error.response.data.message);
+      console.log("Create Error Data:", error.response?.data);
+      toast.error(
+        Array.isArray(error.response?.data?.message)
+          ? error.response?.data?.message[0]
+          : error.response?.data?.message || "Failed to create question",
+      );
     }
   };
 
@@ -34,21 +42,11 @@ export default function useQuestions() {
       getAllQuestions();
       toast.success(response.data.message || "Updated successfully");
     } catch (error) {
-      const errorData = error.response?.data;
-      console.log("Update Error Status:", error.response?.status);
-      console.log("Update Error Full Data:", errorData);
-
-      // If message is an array (Joi/Validation errors), log each one
-      if (Array.isArray(errorData?.message)) {
-        errorData.message.forEach((msg, i) =>
-          console.log(`Validation Error ${i + 1}:`, msg),
-        );
-      }
-
+      console.log("Update Error Data:", error.response?.data);
       toast.error(
-        Array.isArray(errorData?.message)
-          ? errorData.message[0]
-          : errorData?.message || "Failed to update",
+        Array.isArray(error.response?.data?.message)
+          ? error.response?.data?.message[0]
+          : error.response?.data?.message || "Failed to update",
       );
     }
   };
@@ -60,14 +58,18 @@ export default function useQuestions() {
       getAllQuestions();
       toast.success(response.data.message);
     } catch (error) {
-      console.log(error);
-      toast.error(error.response.data.message);
+      if (error.response?.status === 403) {
+        toast.error("You can only delete questions you created.");
+        return;
+      }
+      toast.error(error.response?.data?.message || "Failed to delete");
     }
   };
 
   return {
     getAllQuestions,
     data,
+    loading,
     createQuestion,
     updateQuestion,
     deleteQuestion,

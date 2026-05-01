@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Mail, Key, Check, User, UserPlus, Loader2 } from "lucide-react";
+import { Mail, Key, Check, User, UserPlus, Loader2, Eye, EyeOff } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import {
   Field,
@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/field";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
 import useAuth from "@/Hooks/useAuth";
 
 export default function Login() {
@@ -18,6 +19,7 @@ export default function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit = async (data) => {
     try {
@@ -121,7 +123,7 @@ export default function Login() {
                 className="text-white shrink-0 mr-2 md:mr-3 md:w-[26px] lg:w-[30px]"
               />
               <Input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 {...register("password", {
                   required: "Password is required",
                   minLength: {
@@ -135,8 +137,19 @@ export default function Login() {
                   },
                 })}
                 placeholder="Type your password"
-                className="border-none bg-transparent shadow-none text-white placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0 h-full text-[14px] md:text-[15px] px-0 placeholder:text-[13px] md:placeholder:text-[15px]"
+                className="border-none bg-transparent shadow-none text-white placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0 h-full text-[14px] md:text-[15px] px-0 placeholder:text-[13px] md:placeholder:text-[15px] flex-1"
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword((prev) => !prev)}
+                className="text-gray-400 hover:text-white transition-colors shrink-0 ml-2"
+              >
+                {showPassword ? (
+                  <EyeOff size={18} className="md:w-[22px] lg:w-[26px]" />
+                ) : (
+                  <Eye size={18} className="md:w-[22px] lg:w-[26px]" />
+                )}
+              </button>
             </div>
             {errors.password && (
               <FieldError className="text-red-400 text-[12px] md:text-[13px] mt-1">
