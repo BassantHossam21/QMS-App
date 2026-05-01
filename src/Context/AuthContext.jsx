@@ -4,8 +4,12 @@ import { createContext, useEffect, useState } from "react";
 export let AuthContext = createContext();
 
 export default function AuthContextProvider({ children }) {
-  const [loginData, setLoginData] = useState(null);
-  const [userProfile, setUserProfile] = useState(null);
+  const [loginData, setLoginData] = useState(() =>
+    localStorage.getItem("accessToken") ? jwtDecode(localStorage.getItem("accessToken")) : null
+  );
+  const [userProfile, setUserProfile] = useState(() =>
+    localStorage.getItem("userProfile") ? JSON.parse(localStorage.getItem("userProfile")) : null
+  );
 
   let saveLoginData = () => {
     let encodedToken = localStorage.getItem("accessToken");

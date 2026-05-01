@@ -25,7 +25,7 @@ export default function DialogDetails({
       <Dialog open={open} onOpenChange={onOpenChange}>
         {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
 
-        <DialogContent className="bg-white dark:bg-gray-800 text-black dark:text-gray-100">
+        <DialogContent aria-describedby={undefined} className="bg-white dark:bg-gray-800 text-black dark:text-gray-100">
           <DialogHeader className="dark:text-gray-100">
             <DialogTitle className="text-2xl font-bold dark:text-gray-100">{title}</DialogTitle>
             {description && (

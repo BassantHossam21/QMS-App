@@ -9,6 +9,7 @@ export default function useQuizes() {
   const createQuiz = async (data) => {
     try {
       const response = await axiosClient.post("/api/quiz", data);
+      console.log("Quiz created:", response);
       toast.success(response.data?.message || "Quiz created successfully!");
       return response.data;
     } catch (error) {
@@ -79,6 +80,7 @@ export default function useQuizes() {
   const JoinStudentQuiz = async (data) => {
     try {
       const response = await axiosClient.post("/api/quiz/join", data);
+      console.log(response);
       toast.success(response.data.message);
       return response; // خليها ترجع response عشان نقدر ناخد quizId
     } catch (error) {
@@ -99,6 +101,19 @@ export default function useQuizes() {
       throw error;
     }
   };
+  // ================== SUBMIT QUIZ ===========================
+  const submitQuiz = async (id, answers) => {
+    try {
+      const response = await axiosClient.post(`/api/quiz/submit/${id}`, {
+        answers,
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error submitting quiz:", error);
+      throw error;
+    }
+  };
+
   return {
     createQuiz,
     getIncommingQuizes,
@@ -109,5 +124,6 @@ export default function useQuizes() {
     JoinStudentQuiz,
     getQuestionsWithoutAnswers,
     studentQuiz,
+    submitQuiz,
   };
 }

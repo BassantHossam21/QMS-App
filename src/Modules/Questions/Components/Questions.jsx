@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Loading from "@/Shared/Loading/Loading";
 import useQuestions from "@/Hooks/useQuestions";
 import DeleteConfirmation from "@/Shared/DeleteConfirmation/DeleteConfirmation";
 import Pagination from "@/Shared/Pagination/Pagination";
@@ -23,6 +24,7 @@ export default function Questions() {
   const {
     getAllQuestions,
     data: questions,
+    loading,
     createQuestion,
     updateQuestion,
     deleteQuestion,
@@ -59,7 +61,12 @@ export default function Questions() {
     setSelectedQuestion(question);
     reset({
       ...question,
-      options: question.options || { A: "", B: "", C: "", D: "" },
+      options: {
+        A: question.options?.A || "",
+        B: question.options?.B || "",
+        C: question.options?.C || "",
+        D: question.options?.D || "",
+      },
     });
     setOpenDialog(true);
   };
@@ -102,6 +109,8 @@ export default function Questions() {
   const handleNextPage = () => {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
   };
+
+  if (loading) return <Loading height="h-screen" />;
 
   return (
     <div className="py-6 w-full bg-white dark:bg-[#0D1321] min-h-screen">
@@ -247,7 +256,7 @@ export default function Questions() {
             if (!open) setSelectedQuestion(null);
           }}
         >
-          <DialogContent className="max-w-5xl! w-[95vw]! p-0 border border-black/15 dark:border-gray-700 rounded-[12px] bg-white dark:bg-[#111827] shadow-2xl [&>button]:hidden max-h-[90vh] flex flex-col overflow-hidden">
+          <DialogContent aria-describedby={undefined} className="max-w-5xl! w-[95vw]! p-0 border border-black/15 dark:border-gray-700 rounded-[12px] bg-white dark:bg-[#111827] shadow-2xl [&>button]:hidden max-h-[90vh] flex flex-col overflow-hidden">
             <form
               onSubmit={handleSubmit(onSubmit)}
               className="flex flex-col flex-1 overflow-hidden min-h-0"
@@ -291,7 +300,7 @@ export default function Questions() {
                 </p>
 
                 {/* Title */}
-                <div className="flex flex-col sm:flex-row items-stretch border border-[#0000004D] dark:border-gray-800 rounded-[10px] overflow-hidden bg-white dark:bg-[#111827] shadow-sm">
+                <div className="flex flex-col sm:flex-row items-stretch border border-[#0000004D] dark:border-gray-600 rounded-[10px] overflow-hidden bg-white dark:bg-gray-700 shadow-sm">
                   <span className="bg-[#FFEDDF] dark:bg-[#3C2A1A] px-5 py-3 sm:py-0 sm:h-12 sm:w-44 flex items-center font-bold text-black dark:text-gray-100 text-base sm:text-sm border-b sm:border-b-0 sm:border-r border-[#0000004D] dark:border-gray-600 shrink-0">
                     Title:
                   </span>
@@ -323,11 +332,11 @@ export default function Questions() {
                     </span>
                     <select
                       {...register("difficulty")}
-                      className="flex-1 px-6 sm:px-4 h-20 sm:h-12 border-none bg-transparent text-black dark:text-gray-100 font-bold text-base sm:text-sm outline-none cursor-pointer"
+                      className="flex-1 px-6 sm:px-4 h-20 sm:h-12 border-none bg-white dark:bg-gray-700 text-black dark:text-gray-100 font-bold text-base sm:text-sm outline-none cursor-pointer"
                     >
-                      <option value="easy">Easy</option>
-                      <option value="medium">Medium</option>
-                      <option value="hard">Hard</option>
+                      <option value="easy" className="dark:bg-gray-700">Easy</option>
+                      <option value="medium" className="dark:bg-gray-700">Medium</option>
+                      <option value="hard" className="dark:bg-gray-700">Hard</option>
                     </select>
                   </div>
 
@@ -337,15 +346,13 @@ export default function Questions() {
                     </span>
                     <select
                       {...register("answer", { required: true })}
-                      className="flex-1 px-6 sm:px-4 h-20 sm:h-12 border-none bg-transparent text-black dark:text-gray-100 font-bold text-lg sm:text-sm outline-none cursor-pointer"
+                      className="flex-1 px-6 sm:px-4 h-20 sm:h-12 border-none bg-white dark:bg-gray-700 text-black dark:text-gray-100 font-bold text-lg sm:text-sm outline-none cursor-pointer"
                     >
-                      <option value="" disabled>
-                        Select
-                      </option>
-                      <option value="A">A</option>
-                      <option value="B">B</option>
-                      <option value="C">C</option>
-                      <option value="D">D</option>
+                      <option value="" disabled className="dark:bg-gray-700">Select</option>
+                      <option value="A" className="dark:bg-gray-700">A</option>
+                      <option value="B" className="dark:bg-gray-700">B</option>
+                      <option value="C" className="dark:bg-gray-700">C</option>
+                      <option value="D" className="dark:bg-gray-700">D</option>
                     </select>
                   </div>
 
@@ -355,11 +362,11 @@ export default function Questions() {
                     </span>
                     <select
                       {...register("type")}
-                      className="flex-1 px-6 sm:px-4 h-20 sm:h-12 border-none bg-transparent text-black dark:text-gray-100 font-bold text-lg sm:text-sm outline-none cursor-pointer"
+                      className="flex-1 px-6 sm:px-4 h-20 sm:h-12 border-none bg-white dark:bg-gray-700 text-black dark:text-gray-100 font-bold text-lg sm:text-sm outline-none cursor-pointer"
                     >
-                      <option value="FE">FE</option>
-                      <option value="BE">BE</option>
-                      <option value="DO">DO</option>
+                      <option value="FE" className="dark:bg-gray-700">FE</option>
+                      <option value="BE" className="dark:bg-gray-700">BE</option>
+                      <option value="DO" className="dark:bg-gray-700">DO</option>
                     </select>
                   </div>
                 </div>

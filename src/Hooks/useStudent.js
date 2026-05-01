@@ -7,6 +7,8 @@ export default function useStudents() {
   let [studentDetails, setStudentDetails] = useState(null);
   let [loading, setLoading] = useState(false);
 
+
+  //===================== Get All Students=====================
   const getAllStudents = async () => {
     setLoading(true);
     try {
@@ -20,6 +22,7 @@ export default function useStudents() {
     }
   };
 
+  //===================== Delete Student=====================
   const deleteStudent = async (id) => {
     const previousStudents = students;
     // ✅ optimistic update -
@@ -35,6 +38,8 @@ export default function useStudents() {
       console.log(error);
     }
   };
+
+  //===================== Get Student By Id=====================
   const getStudentById = async (id) => {
     try {
       let response = await axiosClient.get(`/api/student/${id}`);
